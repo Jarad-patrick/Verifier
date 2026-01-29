@@ -36,7 +36,8 @@ def get_db():
     Creates a new DB connection per call.
     For small apps this is fine. For bigger apps, consider a pool.
     """
-    return psycopg.connect(DATABASE_URL)
+    # Fail fast on unreachable DB to avoid Gunicorn worker timeouts.
+    return psycopg.connect(DATABASE_URL, connect_timeout=5)
 
 
 def init_db():
@@ -184,9 +185,13 @@ def send_email(subject: str, body: str, attachments=None):
         )
 
     context = ssl.create_default_context()
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
-        server.login(GMAIL_USER, GMAIL_APP_PASSWORD)
-        server.send_message(msg)
+    try:
+        # Keep SMTP connects short to avoid worker timeouts if DNS/network is slow.
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context, timeout=15) as server:
+            server.login(GMAIL_USER, GMAIL_APP_PASSWORD)
+            server.send_message(msg)
+    except Exception as exc:
+        raise RuntimeError(f"Email send failed: {exc.__class__.__name__}") from exc
 
 
 def parse_data_url(data_url: str):
@@ -226,7 +231,11 @@ def api_verify_request():
         f"Customer Email: {email}\n"
         f"Received At: {now_iso()}\n"
     )
-    send_email(subject, body)
+    try:
+        send_email(subject, body)
+    except Exception as exc:
+        app.logger.exception("Verify email failed")
+        return jsonify({"ok": False, "message": str(exc)}), 502
     return jsonify({"ok": True})
 
 
@@ -242,8 +251,11 @@ def api_scan_upload():
     if not brand or not email or not front or not back:
         return jsonify({"ok": False, "message": "Missing brand, email, or images."}), 400
 
-    maintype_f, subtype_f, bytes_f = parse_data_url(front)
-    maintype_b, subtype_b, bytes_b = parse_data_url(back)
+    try:
+        maintype_f, subtype_f, bytes_f = parse_data_url(front)
+        maintype_b, subtype_b, bytes_b = parse_data_url(back)
+    except Exception as exc:
+        return jsonify({"ok": False, "message": "Invalid image data."}), 400
 
     subject = f"Gift Safer {mode.capitalize()} Upload - {brand}"
     body = (
@@ -267,7 +279,11 @@ def api_scan_upload():
             "subtype": subtype_b,
         },
     ]
-    send_email(subject, body, attachments=attachments)
+    try:
+        send_email(subject, body, attachments=attachments)
+    except Exception as exc:
+        app.logger.exception("Scan upload email failed")
+        return jsonify({"ok": False, "message": str(exc)}), 502
     return jsonify({"ok": True})
 
 

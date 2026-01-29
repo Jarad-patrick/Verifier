@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gift Safe Validator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+
+  <body>
+    <div class="bg">
+      <div class="bg-photo"></div>
+      <div class="bg-glow glow-1"></div>
+      <div class="bg-glow glow-2"></div>
+      <div class="bg-noise"></div>
+    </div>
+
+    <main class="container">
+      <header class="header">
+        <div class="brand">
+          <div class="logo-wrap" aria-hidden="true">
+            <svg class="logo-icon" viewBox="0 0 64 64" role="img" aria-hidden="true">
+              <path d="M12 26h40v26a6 6 0 0 1-6 6H18a6 6 0 0 1-6-6V26z" />
+              <path d="M8 26h48v10H8z" />
+              <path d="M32 26v32" />
+              <path d="M22 26c-5 0-10-4-10-9s5-9 10-9c6 0 10 6 10 12-4-4-6-6-10-6z" />
+              <path d="M42 26c5 0 10-4 10-9s-5-9-10-9c-6 0-10 6-10 12 4-4 6-6 10-6z" />
+              <path d="M26 44l4 4 8-10" />
+            </svg>
+            <span class="pulse-ring"></span>
+          </div>
+          <div class="brand-text">
+            <h1>Gift Safer Validator</h1>
+            <p class="sub">Fast checks and smart purchases.</p>
+          </div>
+        </div>
+
+        <nav class="nav"></nav>
+
+        <div class="header-actions">
+          <a class="ghost-btn" href="#verify">Verify a Card</a>
+        </div>
+      </header>
+
+      <section class="hero">
+        <div class="hero-left">
+          <h2>Verify gift card formats and check cards in seconds</h2>
+          <p class="muted">
+            Pick a brand below. You can <b>Verify</b> or <b>Purchase</b>.
+            Built for fast, consistent results.
+          </p>
+
+          <div class="hero-cta"></div>
+
+          <div class="hero-points">
+            <div class="point">
+              <div class="point-title">Realtime responses</div>
+              <p class="muted small">Clear status signals and outcomes.</p>
+            </div>
+            <div class="point">
+              <div class="point-title">Trusted by top brands</div>
+              <p class="muted small">Built with consistent checks and reliable outcomes.</p>
+            </div>
+            <div class="point">
+              <div class="point-title">Transparent rules</div>
+              <p class="muted small">Rules are listed and easy to explain.</p>
+            </div>
+          </div>
+
+          <div class="trust-row"></div>
+        </div>
+
+        <div class="hero-right" aria-hidden="true">
+          <div class="floating-card">
+            <div class="fc-top">
+              <div class="fc-chip"></div>
+              <div class="fc-mini">GC</div>
+            </div>
+            <div class="fc-title">Gift Card</div>
+            <div class="fc-code">GC-1234-5678-9015</div>
+            <div class="fc-row">
+              <span class="fc-tag">Verified</span>
+              <span class="fc-dot"></span>
+              <span class="fc-tag">USD - GBP - EUR</span>
+            </div>
+          </div>
+          <div class="hero-panel">
+            <div class="panel-title">Coverage snapshot</div>
+            <div class="panel-row">
+              <span>Supported brands</span>
+              <strong>120+</strong>
+            </div>
+            <div class="panel-row">
+              <span>Avg response</span>
+              <strong>1.2s</strong>
+            </div>
+            <div class="panel-row">
+              <span>Compliance</span>
+              <strong>Standard checks</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="cards" class="cards-section">
+        <div class="section-head">
+          <h3>Popular Gift Cards</h3>
+          <p class="muted">Choose a brand, then verify or purchase.</p>
+        </div>
+
+        <div class="cards-grid" id="cardsGrid">
+          <article
+            class="gift-card"
+            data-brand="Apple"
+            data-prefix="APL"
+            data-format="APL-1234-5678-9012"
+            style="--card-bg: url('{{ url_for('static', filename='images/card-bgs/apple.jpg') }}');"
+          >
+            <div class="gc-top">
+              <div class="gc-logo" title="Apple" aria-label="Apple Logo">
+                <img src="{{ url_for('static', filename='images/apple-173-svgrepo-com.svg') }}" alt="Apple" />
+              </div>
+              <span class="gc-badge hot">Hot</span>
+            </div>
+            <h4>Apple Gift Card</h4>
+            <p class="muted small">Apple Store credit - fast delivery.</p>
+
+            <div class="gc-actions">
+              <button class="btn btn-small verify-btn" type="button">Verify</button>
+              <button class="btn btn-small btn-secondary scan-btn" type="button">Scan Image</button>
+            </div>
+
+            <div class="gc-meta">
+              <span class="meta-pill">Instant</span>
+              <span class="meta-pill">Code: APL-****-****</span>
+            </div>
+          </article>
+
+          <article
+            class="gift-card"
+            data-brand="Amazon"
+            data-prefix="AMZ"
+            data-format="AMZ-0000-0000-0000"
+            style="--card-bg: url('{{ url_for('static', filename='images/card-bgs/amazon.jpg') }}');"
+          >
+            <div class="gc-top">
+              <div class="gc-logo" title="Amazon" aria-label="Amazon Logo">
+                <img src="{{ url_for('static', filename='images/amazon-svgrepo-com.svg') }}" alt="Amazon" />
+              </div>
+              <span class="gc-badge">Popular</span>
+            </div>
+            <h4>Amazon Gift Card</h4>
+            <p class="muted small">Shopping wallet credit - secure checkout.</p>
+
+            <div class="gc-actions">
+              <button class="btn btn-small verify-btn" type="button">Verify</button>
+              <button class="btn btn-small btn-secondary scan-btn" type="button">Scan Image</button>
+            </div>
+
+            <div class="gc-meta">
+              <span class="meta-pill">Best Seller</span>
+              <span class="meta-pill">Code: AMZ-****-****</span>
+            </div>
+          </article>
+
+          <article
+            class="gift-card"
+            data-brand="American Express"
+            data-prefix="AMX"
+            data-format="AMX-1234-5678-9012"
+            style="--card-bg: url('{{ url_for('static', filename='images/card-bgs/american express gold.webp') }}');"
+          >
+            <div class="gc-top">
+              <div class="gc-logo" title="American Express" aria-label="American Express Logo">
+                <img src="{{ url_for('static', filename='images/american express.png') }}" alt="American Express" />
+              </div>
+              <span class="gc-badge">Premium</span>
+            </div>
+            <h4>American Express Gift Card</h4>
+            <p class="muted small">Flexible spending credit - instant delivery.</p>
+
+            <div class="gc-actions">
+              <button class="btn btn-small verify-btn" type="button">Verify</button>
+              <button class="btn btn-small btn-secondary scan-btn" type="button">Scan Image</button>
+            </div>
+
+            <div class="gc-meta">
+              <span class="meta-pill">Secure</span>
+              <span class="meta-pill">Code: AMX-****-****</span>
+            </div>
+          </article>
+
+          <article
+            class="gift-card"
+            data-brand="eBay"
+            data-prefix="EBY"
+            data-format="EBY-1234-5678-9012"
+            style="--card-bg: url('{{ url_for('static', filename='images/card-bgs/ebay.png') }}');"
+          >
+            <div class="gc-top">
+              <div class="gc-logo" title="eBay" aria-label="eBay Logo">
+                <img src="{{ url_for('static', filename='images/ebay logo.png') }}" alt="eBay" />
+              </div>
+              <span class="gc-badge">Marketplace</span>
+            </div>
+            <h4>eBay Gift Card</h4>
+            <p class="muted small">Shopping credit - quick delivery.</p>
+
+            <div class="gc-actions">
+              <button class="btn btn-small verify-btn" type="button">Verify</button>
+              <button class="btn btn-small btn-secondary scan-btn" type="button">Scan Image</button>
+            </div>
+
+            <div class="gc-meta">
+              <span class="meta-pill">Instant</span>
+              <span class="meta-pill">Code: EBY-****-****</span>
+            </div>
+          </article>
+
+          <article
+            class="gift-card"
+            data-brand="Visa"
+            data-prefix="VSA"
+            data-format="VSA-1234-5678-9012"
+            style="--card-bg: url('{{ url_for('static', filename='images/card-bgs/visa.png') }}');"
+          >
+            <div class="gc-top">
+              <div class="gc-logo" title="Visa" aria-label="Visa Logo">
+                <img src="{{ url_for('static', filename='images/visa logo.png') }}" alt="Visa" />
+              </div>
+              <span class="gc-badge">Universal</span>
+            </div>
+            <h4>Visa Gift Card</h4>
+            <p class="muted small">Spend anywhere credit - instant delivery.</p>
+
+            <div class="gc-actions">
+              <button class="btn btn-small verify-btn" type="button">Verify</button>
+              <button class="btn btn-small btn-secondary scan-btn" type="button">Scan Image</button>
+            </div>
+
+            <div class="gc-meta">
+              <span class="meta-pill">Popular</span>
+              <span class="meta-pill">Code: VSA-****-****</span>
+            </div>
+          </article>
+
+          <article
+            class="gift-card"
+            data-brand="Paramount"
+            data-prefix="PAR"
+            data-format="PAR-1234-5678"
+            style="--card-bg: url('{{ url_for('static', filename='images/card-bgs/paramount.jpg') }}');"
+          >
+            <div class="gc-top">
+              <div class="gc-logo" title="Paramount" aria-label="Paramount Logo">
+                <img src="{{ url_for('static', filename='images/paramount logo.jpg') }}" alt="Paramount" />
+              </div>
+              <span class="gc-badge">Streaming</span>
+            </div>
+            <h4>Paramount Gift Card</h4>
+            <p class="muted small">Streaming credit - quick delivery.</p>
+
+            <div class="gc-actions">
+              <button class="btn btn-small verify-btn" type="button">Verify</button>
+              <button class="btn btn-small btn-secondary scan-btn" type="button">Scan Image</button>
+            </div>
+
+            <div class="gc-meta">
+              <span class="meta-pill">Digital</span>
+              <span class="meta-pill">Code: PAR-****-****</span>
+            </div>
+          </article>
+
+          <article
+            class="gift-card"
+            data-brand="PlayStation"
+            data-prefix="PSN"
+            data-format="PSN-123456789012"
+            style="--card-bg: url('{{ url_for('static', filename='images/card-bgs/playstation.jpg') }}');"
+          >
+            <div class="gc-top">
+              <div class="gc-logo" title="PlayStation" aria-label="PlayStation Logo">
+                <img src="{{ url_for('static', filename='images/playstation-svgrepo-com.svg') }}" alt="PlayStation" />
+              </div>
+              <span class="gc-badge">Gaming</span>
+            </div>
+            <h4>PlayStation Gift Card</h4>
+            <p class="muted small">PS Store wallet funds - smooth experience.</p>
+
+            <div class="gc-actions">
+              <button class="btn btn-small verify-btn" type="button">Verify</button>
+              <button class="btn btn-small btn-secondary scan-btn" type="button">Scan Image</button>
+            </div>
+
+            <div class="gc-meta">
+              <span class="meta-pill">Top Rated</span>
+              <span class="meta-pill">Code: PSN-************</span>
+            </div>
+          </article>
+
+          <article
+            class="gift-card"
+            data-brand="Steam"
+            data-prefix="STM"
+            data-format="STM-0000-0000-0000"
+            style="--card-bg: url('{{ url_for('static', filename='images/card-bgs/steam.jpg') }}');"
+          >
+            <div class="gc-top">
+              <div class="gc-logo" title="Steam" aria-label="Steam Logo">
+                <img src="{{ url_for('static', filename='images/steam-svgrepo-com.svg') }}" alt="Steam" />
+              </div>
+              <span class="gc-badge">PC</span>
+            </div>
+            <h4>Steam Gift Card</h4>
+            <p class="muted small">PC games wallet credit - instant delivery.</p>
+
+            <div class="gc-actions">
+              <button class="btn btn-small verify-btn" type="button">Verify</button>
+              <button class="btn btn-small btn-secondary scan-btn" type="button">Scan Image</button>
+            </div>
+
+            <div class="gc-meta">
+              <span class="meta-pill">Fast</span>
+              <span class="meta-pill">Code: STM-****-****</span>
+            </div>
+          </article>
+
+          <article
+            class="gift-card"
+            data-brand="iTunes"
+            data-prefix="ITN"
+            data-format="ITN-ABCD-EFGH-IJKL"
+            style="--card-bg: url('{{ url_for('static', filename='images/card-bgs/itunes.jpg') }}');"
+          >
+            <div class="gc-top">
+              <div class="gc-logo" title="iTunes" aria-label="iTunes Logo">
+                <img src="{{ url_for('static', filename='images/itunes-podcasts-svgrepo-com.svg') }}" alt="iTunes" />
+              </div>
+              <span class="gc-badge">Music</span>
+            </div>
+            <h4>iTunes Gift Card</h4>
+            <p class="muted small">Apple media credit - clean experience.</p>
+
+            <div class="gc-actions">
+              <button class="btn btn-small verify-btn" type="button">Verify</button>
+              <button class="btn btn-small btn-secondary scan-btn" type="button">Scan Image</button>
+            </div>
+
+            <div class="gc-meta">
+              <span class="meta-pill">Smooth</span>
+              <span class="meta-pill">Code: ITN-****-****</span>
+            </div>
+          </article>
+
+          <article
+            class="gift-card"
+            data-brand="Razer Gold"
+            data-prefix="RZG"
+            data-format="RZG-1234-5678-9012"
+            style="--card-bg: url('{{ url_for('static', filename='images/card-bgs/razor gold.jpg') }}');"
+          >
+            <div class="gc-top">
+              <div class="gc-logo" title="Razer Gold" aria-label="Razer Gold Logo">
+                <img src="{{ url_for('static', filename='images/razer gold.webp') }}" alt="Razer Gold" />
+              </div>
+              <span class="gc-badge">Gaming</span>
+            </div>
+            <h4>Razer Gold Gift Card</h4>
+            <p class="muted small">Gaming wallet credit - fast delivery.</p>
+
+            <div class="gc-actions">
+              <button class="btn btn-small verify-btn" type="button">Verify</button>
+              <button class="btn btn-small btn-secondary scan-btn" type="button">Scan Image</button>
+            </div>
+
+            <div class="gc-meta">
+              <span class="meta-pill">Instant</span>
+              <span class="meta-pill">Code: RZG-****-****</span>
+            </div>
+          </article>
+
+          <article
+            class="gift-card"
+            data-brand="Sephora"
+            data-prefix="SEP"
+            data-format="SEP-1234-5678"
+            style="--card-bg: url('{{ url_for('static', filename='images/card-bgs/sephora.png') }}');"
+          >
+            <div class="gc-top">
+              <div class="gc-logo" title="Sephora" aria-label="Sephora Logo">
+                <img src="{{ url_for('static', filename='images/sephora logo.webp') }}" alt="Sephora" />
+              </div>
+              <span class="gc-badge">Beauty</span>
+            </div>
+            <h4>Sephora Gift Card</h4>
+            <p class="muted small">Beauty and skincare credit - instant delivery.</p>
+
+            <div class="gc-actions">
+              <button class="btn btn-small verify-btn" type="button">Verify</button>
+              <button class="btn btn-small btn-secondary scan-btn" type="button">Scan Image</button>
+            </div>
+
+            <div class="gc-meta">
+              <span class="meta-pill">Popular</span>
+              <span class="meta-pill">Code: SEP-****-****</span>
+            </div>
+          </article>
+
+          <article
+            class="gift-card"
+            data-brand="Xbox"
+            data-prefix="XBX"
+            data-format="XBX-1234-5678-9012"
+            style="--card-bg: url('{{ url_for('static', filename='images/card-bgs/xbox.jpg') }}');"
+          >
+            <div class="gc-top">
+              <div class="gc-logo" title="Xbox" aria-label="Xbox Logo">
+                <img src="{{ url_for('static', filename='images/xbox-svgrepo-com.svg') }}" alt="Xbox" />
+              </div>
+              <span class="gc-badge">Gaming</span>
+            </div>
+            <h4>Xbox Gift Card</h4>
+            <p class="muted small">Console and PC credit - smooth experience.</p>
+
+            <div class="gc-actions">
+              <button class="btn btn-small verify-btn" type="button">Verify</button>
+              <button class="btn btn-small btn-secondary scan-btn" type="button">Scan Image</button>
+            </div>
+
+            <div class="gc-meta">
+              <span class="meta-pill">Top Rated</span>
+              <span class="meta-pill">Code: XBX-****-****</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="how" class="info-section">
+        <div class="section-head">
+          <h3>How verification works</h3>
+          <p class="muted">A clear, traceable check with consistent rules.</p>
+        </div>
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-num">01</div>
+            <h4>Pick a brand</h4>
+            <p class="muted small">Choose a card or auto-fill a sample format.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">02</div>
+            <h4>Run a check</h4>
+            <p class="muted small">We validate format and return a status.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">03</div>
+            <h4>Review results</h4>
+            <p class="muted small">See status, brand, and a response trail.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="verify" class="verify-section">
+        <div class="verify-grid">
+          <div class="card">
+            <div class="card-head">
+              <h3>Verify a Gift Card</h3>
+              <p class="muted small">Enter a code to check format and status.</p>
+            </div>
+
+            <form id="checkForm" class="form">
+              <label>
+                Card Brand
+                <select id="cardType" required>
+                  <option value="Amazon">Amazon</option>
+                  <option value="American Express">American Express</option>
+                  <option value="eBay">eBay</option>
+                  <option value="Visa">Visa</option>
+                  <option value="Paramount">Paramount</option>
+                  <option value="PlayStation">PlayStation</option>
+                  <option value="Steam">Steam</option>
+                  <option value="iTunes">iTunes</option>
+                  <option value="Apple">Apple</option>
+                  <option value="Google Play">Google Play</option>
+                  <option value="Razer Gold">Razer Gold</option>
+                  <option value="Sephora">Sephora</option>
+                  <option value="Xbox">Xbox</option>
+                </select>
+              </label>
+
+              <label>
+                Code
+                <input
+                  id="code"
+                  type="text"
+                  autocomplete="off"
+                  required
+                />
+                <small class="hint" id="hintText"></small>
+              </label>
+
+              <label>
+                Email
+                <input
+                  id="email"
+                  type="email"
+                  autocomplete="email"
+                  required
+                />
+              </label>
+
+              <button id="checkBtn" type="submit" class="btn btn-full">
+                <span class="btn-text">Verify</span>
+                <span class="spinner" aria-hidden="true"></span>
+              </button>
+
+            </form>
+
+          </div>
+
+          <div class="card result-card">
+            <div class="result-head">
+              <h3>Result</h3>
+              <div id="statusBadge" class="badge neutral"></div>
+            </div>
+
+            <div id="resultBox" class="result-box empty"></div>
+
+            <div class="recent">
+              <div class="recent-head">
+                <h4>Recent checks</h4>
+                <button id="clearRecent" class="link-btn" type="button">Clear</button>
+              </div>
+              <div id="recentList" class="recent-list"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="why" class="why-section">
+        <div class="section-head">
+          <h3>Why choose us?</h3>
+          <p class="muted">We keep verification fast, transparent, and safe.</p>
+        </div>
+        <div class="why-grid">
+          <article class="why-card">
+            <div class="why-icon">
+              <img src="{{ url_for('static', filename='images/why choose us 1.jpg') }}" alt="Customer" />
+            </div>
+            <div>
+              <h4>Secure verification flow</h4>
+              <p class="muted small">Your checks follow consistent rules with clear responses and references.</p>
+            </div>
+          </article>
+          <article class="why-card">
+            <div class="why-icon">
+              <img src="{{ url_for('static', filename='images/why choose us 2.jpg') }}" alt="Team" />
+            </div>
+            <div>
+              <h4>Fast, reliable results</h4>
+              <p class="muted small">Instant feedback with smart hints so you can act with confidence.</p>
+            </div>
+          </article>
+          <article class="why-card">
+            <div class="why-icon">
+              <img src="{{ url_for('static', filename='images/why choose us 3.jpg') }}" alt="Support" />
+            </div>
+            <div>
+              <h4>Transparent outcomes</h4>
+              <p class="muted small">See what was checked and why a card passed or failed.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="faq" class="info-section">
+        <div class="section-head">
+          <h3>FAQ</h3>
+          <p class="muted">Clear, honest answers about verification.</p>
+        </div>
+        <div class="faq-grid">
+          <div class="faq-item">
+            <h4>Is my gift card information safe?</h4>
+            <p class="muted small">
+              Yes. All gift card codes are processed using encrypted connections, and we do not permanently store your
+              card details. Your privacy and security are our top priority.
+            </p>
+          </div>
+          <div class="faq-item">
+            <h4>How does the validation process work?</h4>
+            <p class="muted small">
+              When you submit a gift card code, our system securely checks it against supported issuer validation
+              channels and internal verification rules. The process takes only a few seconds and returns the current
+              status of the card.
+            </p>
+          </div>
+          <div class="faq-item">
+            <h4>Which gift cards can be validated on this platform?</h4>
+            <p class="muted small">
+              We support a wide range of popular gift cards including Amazon, Apple, Google Play, Steam, PlayStation,
+              Netflix, and more. Available card types may vary depending on region and issuer availability.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">© 2026 Gift Safer Validator. All rights reserved.</footer>
+    </main>
+
+    <input id="scanInput" type="file" accept="image/*" capture="environment" style="display: none;" />
+    <button
+      class="chat-bubble"
+      type="button"
+      aria-label="Contact customer care"
+      aria-expanded="false"
+      aria-controls="chatPanel"
+    >
+      <span class="chat-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+          <path
+            d="M4 5.5A3.5 3.5 0 0 1 7.5 2h9A3.5 3.5 0 0 1 20 5.5v7A3.5 3.5 0 0 1 16.5 16H10l-4.5 4v-4.5A3.5 3.5 0 0 1 4 12.5v-7Z"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </span>
+      <span class="chat-text">Customer Care</span>
+    </button>
+    <div id="chatPanel" class="chat-panel" role="dialog" aria-modal="false" aria-hidden="true">
+      <div class="chat-panel-head">
+        <div>
+          <div class="chat-panel-title">Reach out to us via</div>
+          <div class="chat-panel-sub muted small">We reply quickly during business hours.</div>
+        </div>
+        <button class="link-btn chat-panel-close" type="button">Close</button>
+      </div>
+      <div class="chat-panel-body">
+        <a class="chat-option" href="mailto:giftsafer@gmail.com">
+          <span class="chat-option-icon email" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+              <path
+                d="M4 6h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Z"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+              />
+              <path d="m4 8 8 5 8-5" fill="none" stroke="currentColor" stroke-width="1.6" />
+            </svg>
+          </span>
+          <div>
+            <div class="chat-option-title">Email</div>
+            <div class="chat-option-sub">giftsafer@gmail.com</div>
+          </div>
+        </a>
+        <a class="chat-option" href="tel:+12134986110">
+          <span class="chat-option-icon phone" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+              <path
+                d="M6.5 3.5h3l1.2 3.1-1.8 1.8c1.1 2.2 2.9 4 5.1 5.1l1.8-1.8 3.1 1.2v3a1.7 1.7 0 0 1-1.7 1.7C10.5 19.6 4.4 13.5 4.8 5.2A1.7 1.7 0 0 1 6.5 3.5Z"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+              />
+            </svg>
+          </span>
+          <div>
+            <div class="chat-option-title">Phone</div>
+            <div class="chat-option-sub">(213) 498-6110</div>
+          </div>
+        </a>
+        <a class="chat-option" href="https://wa.me/12134986110" target="_blank" rel="noreferrer">
+          <span class="chat-option-icon whatsapp" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+              <path
+                d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.6-1.2A9 9 0 1 0 12 3Z"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+              />
+              <path
+                d="M9.2 8.9c.4-.4.8-.4 1.1-.1l1 .9c.3.3.3.7.1 1l-.6.8c.7 1.2 1.7 2.2 2.9 2.9l.8-.6c.3-.2.7-.2 1 .1l.9 1c.3.3.3.7-.1 1.1-.6.7-1.3 1-2.1.8-2.3-.4-4.2-1.5-5.8-3.1-1.6-1.6-2.7-3.5-3.1-5.8-.1-.8.2-1.5.8-2.1Z"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.2"
+              />
+            </svg>
+          </span>
+          <div>
+            <div class="chat-option-title">WhatsApp</div>
+            <div class="chat-option-sub">Chat now</div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <div id="cameraModal" class="camera-modal" aria-hidden="true">
+      <div class="camera-card" role="dialog" aria-modal="true" aria-label="Scan balance camera">
+        <div class="camera-head">
+          <div>
+            <div id="cameraTitle" class="camera-title">Scan Balance</div>
+            <div id="cameraSub" class="camera-sub muted small">Allow camera access, then capture front and back.</div>
+          </div>
+          <button id="cameraClose" class="link-btn" type="button">Close</button>
+        </div>
+        <div class="camera-body">
+          <video id="cameraVideo" autoplay playsinline muted></video>
+          <canvas id="cameraCanvas" style="display:none;"></canvas>
+          <div id="cameraDone" class="camera-done" aria-live="polite">Capture complete.</div>
+          <div class="camera-warning">
+            Please scratch the card carefully before capturing. Make sure the full code is visible and readable in both photos.
+          </div>
+          <div class="camera-previews">
+            <div class="preview">
+              <div class="preview-label">Front</div>
+              <img id="previewFront" alt="Front capture" />
+            </div>
+            <div class="preview preview-back">
+              <div class="preview-label">Back</div>
+              <img id="previewBack" alt="Back capture" />
+            </div>
+          </div>
+        </div>
+        <label class="camera-email">
+          Email
+          <input
+            id="cameraEmail"
+            type="email"
+            autocomplete="email"
+            required
+          />
+        </label>
+        <div class="camera-actions">
+          <button id="cameraSnap" class="btn btn-small" type="button">Snap Front</button>
+          <button id="cameraUpload" class="btn btn-small btn-secondary" type="button" disabled>Upload</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>

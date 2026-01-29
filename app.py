@@ -8,8 +8,7 @@ import smtplib
 import ssl
 from email.message import EmailMessage
 from datetime import datetime, timezone
-import psycopg2
-import psycopg2.extras
+import psycopg
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -37,7 +36,7 @@ def get_db():
     Creates a new DB connection per call.
     For small apps this is fine. For bigger apps, consider a pool.
     """
-    return psycopg2.connect('postgresql://postgres:joetel88@localhost:5432/Gift_card_verifier')
+    return psycopg.connect(DATABASE_URL)
 
 
 def init_db():
